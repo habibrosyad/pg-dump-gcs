@@ -47,6 +47,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        - GOOGLE_PROJECT_ID=your_actual_project_id
     container_name: postgres_backup
     volumes:
       - ./backup:/backup  # Store backups on the host

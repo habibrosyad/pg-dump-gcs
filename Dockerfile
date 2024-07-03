@@ -6,7 +6,10 @@ RUN apk update && apk add --no-cache \
     curl \
     postgresql-client \
     ca-certificates \
-    tar
+    tar \
+    python3 \
+    py3-pip \
+    sed
 
 # Install gsutil
 RUN mkdir -p /usr/local/gsutil && \
@@ -22,6 +25,11 @@ RUN chmod +x /usr/local/bin/backup.sh
 # Add the entrypoint script
 ADD entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# Add boto config file.
+ADD boto.cfg /root/.boto
+ARG GOOGLE_PROJECT_ID
+RUN sed -i "s/your_google_project_id/${GOOGLE_PROJECT_ID}/g" /root/.boto
 
 # Set environment variable for Google credentials
 ENV GOOGLE_APPLICATION_CREDENTIALS="/keyfile.json"

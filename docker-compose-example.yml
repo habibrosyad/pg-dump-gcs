@@ -1,0 +1,15 @@
+services:
+  backup:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: postgres_backup
+    volumes:
+      - ./backup:/backup
+    environment:
+      - DB_HOST=your_postgres_host
+      - DB_NAME=your_database_name
+      - DB_USER=your_database_user
+      - DB_PASSWORD=your_database_password
+      - GCS_BUCKET=your-gcs-bucket
+      - CRON_SCHEDULE=0 0 * * *   # Modify this value as needed
